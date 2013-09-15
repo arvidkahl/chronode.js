@@ -2,12 +2,43 @@
 
 <div>
   <input id="module" type="text"></input>
-  <button id='send'>FETCH</button>
+  <button id='send'>Fetch data from npm</button>
+  <input id="date" type="text"></input>
+  <button id='calculate'>Show this date's version</button>
+
+
   <script type="text/javascript">
 
     timeData = {}
 
     $(document).ready(function(){
+
+      $( "#date" ).datepicker();
+
+      $("#calculate").on('click', function() {
+        var currentDate = $( "#date" ).datepicker( "getDate" );
+        console.log(currentDate);
+
+        $("#result").html('modules at time '+currentDate);
+        for (name in timeData) {
+
+          var closest = {time : 0, version : 0}
+
+          times = timeData[name];
+          for (var i = times.length - 1; i >= 0; i--) {
+            // console.log(times[i].time);
+            // console.log(new Date(times[i].time+":00:00"), new Date(closest.time), currentDate)
+            time = new Date(times[i].time+":00:00")
+            if (time > new Date(closest.time) && time < currentDate) {
+              closest = times[i];
+            }
+          };
+
+          $("#result").append("<p>"+name+" version: "+closest.version+"</p>");
+
+        }
+
+      });
 
       $("#send").on('click',function(){
         var name = $("#module").val();
