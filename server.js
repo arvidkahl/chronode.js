@@ -6,6 +6,18 @@ var cache = { initialized : new Date(), items : [] }
 
 var daisy;
 
+var express = require('express')
+  , engine = require('ejs-locals')
+  , app = express();
+
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
+
+app.set('views',__dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.use(express.bodyParser());
+
 daisy = function(args, fn) {
   return setTimeout(args.next = function() {
     var f;
@@ -59,10 +71,14 @@ fetchTimes =  function(name,callback){
     }
 // main process
 
-http.createServer(function (req, res) {
+app.post('/',function (req,res) {
 
-  var url_parts = url.parse(req.url, true);
-  var query = url_parts.query;
+  console.log('Post received',req.body);
+
+  // var url_parts = url.parse(req.url, true);
+  // var query = url_parts.query;
+
+  var query = req.body.names;
 
   // console.log('main: query is '+ query);
 
@@ -85,18 +101,25 @@ http.createServer(function (req, res) {
     sendResponse = function(data_,callback){
       // console.log('sendResponse: Done fetching. Sending data.');
 
-      content = 'This is it!'+'<script>var a = '+JSON.stringify(data_)+"</script>";
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      // content = 'This is it!'+'<script>var a = '+JSON.stringify(data_)+"</script>";
 
       // console.log('Content: ',content);
-      res.end(content);
+      // res.end(content);
+
+      // res.render('index',{data:data_});
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end(JSON.stringify(data_));
+
       if(callback){callback();}
     }
 
-    names = [];
-    for (var name in query) {names.push(name)}
+    // names = [];
+    // for (var name in query) {names.push(name)}
 
-    names.forEach( function(name){
+    // console.log(names,query);
+
+    // names.forEach( function(name){
+    query.forEach( function(name){
 
       var name_=name.replace(/%s/g,'');
 
@@ -116,5 +139,13 @@ http.createServer(function (req, res) {
     daisy(queue);
 
     }
+  });
 
-}).listen(process.env.PORT || 4000);
+app.get('/',function (req, res) {
+
+  console.log('Get received');
+  res.render('index',{});
+
+});
+
+app.listen(process.env.PORT || 4000);

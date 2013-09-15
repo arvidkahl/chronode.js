@@ -1,0 +1,34 @@
+<% layout('layout') -%>
+
+<div>
+  <input id="module" type="text"></input>
+  <button id='send'>FETCH</button>
+  <script type="text/javascript">
+
+    timeData = {}
+
+    $(document).ready(function(){
+
+      $("#send").on('click',function(){
+        var name = $("#module").val();
+        console.log(name," ajax started");
+        $.ajax({
+          url: "/",
+          type:'POST',
+          data: {
+            names: [name]
+          },
+          success: function( data ) {
+            time = JSON.parse(data)
+            $( "#result" ).html( "<code>" + data + "</code>" );
+            for (name_ in time) {timeData[name_]=time[name_]}
+          }
+        });
+
+      });
+    });
+  </script>
+
+  <div id='result'></div>
+
+</div>
