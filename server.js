@@ -12,17 +12,25 @@ http.createServer(function (req, res) {
   var query = url_parts.query;
   if (query!=={}) {
     for (var name in query) {
-      console.log(name);
-      child = exec("npm show "+name, function (error, package, stderr) {
+      console.log('Checking for module: ',name);
+      child = exec("npm show "+name+" time", function (error, packageTime, stderr) {
         if(error == null) {
 
-          // Problem: JSON is malformed, need to find a way to parse it.
-          console.log(package);
+            var times = [];
+            lines = packageTime.split('\n');
+            for (var line in lines) {
+              time = lines[line].replace(/['",{}]/g,'').match(/([^:]+): ([^:]+)/);
+              if (time && time[1] && time[2]){
+                times.push({version:time[1].trim(),time:time[2].trim()});
+              }
+            }
 
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('nothing so far');
-        } else {console.log(error);}
 
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(JSON.stringify(times));
+          } else {
+            console.log(error);
+          }
       });
     }
   }
