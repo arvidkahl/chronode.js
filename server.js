@@ -42,17 +42,19 @@ fetchTimes =  function(name,callback){
 
               cache.items[name]=times;
               // console.log('fetchTimes: calling back with new object');
-              callback(times);
+              if (times.length == 0) {console.log("WARNING no time data found for "+name); }
+              callback(error, times);
 
             } else {
-              console.log('fetchTimes: ERROR  '+error);
+              console.log('ERROR fetching information for '+name);
+              callback(error)
             }
           });
         }
         else {
           // console.log('fetchTimes: calling back with old object');
           // console.log("FetchTimes: "+name+' found in cache.');
-          callback(cache.items[name]);
+          callback(null,cache.items[name]);
         }
     }
 // main process
@@ -73,10 +75,10 @@ http.createServer(function (req, res) {
 
     fetchModule = function(name_,callback){
         // console.log('fetchModule');
-        fetchTimes(name_,function(res){
+        fetchTimes(name_,function(error,res){
           // console.log('fetchModule: Fetching done for '+name_);
-          data[name_]=res;
-          callback(res);
+          if(error == null) { data[name_]=res; }
+          callback(error, res);
         });
       }
 
