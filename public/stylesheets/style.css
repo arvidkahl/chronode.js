@@ -1,0 +1,162 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,300");
+body {
+  min-height: 1000px;
+  padding-top: 60px;
+}
+a {
+  color: #1abc9c;
+}
+.navbar {
+  border-bottom: 10px solid #1abc9c;
+}
+.landing {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background-image: url("../img/bg_landing.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  background-color: #1abc9c;
+  height: 700px;
+  text-align: center;
+}
+.landing h1 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  font-style: italic;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+}
+.landing h1 span.highlighted {
+  background-color: #1abc9c;
+  padding: 3px 10px;
+}
+.landing p {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+  color: #fff;
+  font-style: italic;
+  font-weight: 300;
+}
+.landing .signup {
+  text-align: right;
+  width: 400px;
+}
+.well-db {
+  margin: auto;
+  margin-bottom: 150px;
+  margin-top: 150px;
+  background-color: rgba(255,255,255,0.3);
+  background-image: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: inset 0 5px 25px rgba(255,255,255,0.3);
+  border-radius: 0;
+}
+button.btn-db {
+  color: #fff;
+  background-color: #1abc9c;
+  border-radius: 0;
+  border: 0;
+  background-image: none;
+  text-shadow: none;
+  transition: background-color, 0.3s linear;
+}
+button.btn-db:hover {
+  background-color: #1ed6b2;
+  color: #fff;
+}
+input.input-db {
+  background-color: #1abc9c;
+  border: 1px solid transparent;
+  border-radius: 0;
+  color: #fff;
+  -webkit-box-shadow: inset 0 0 15px rgba(100,100,100,0);
+  -moz-box-shadow: inset 0 0 15px rgba(100,100,100,0);
+  -khtml-box-shadow: inset 0 0 15px rgba(100,100,100,0);
+  -o-box-shadow: inset 0 0 15px rgba(100,100,100,0);
+  -icab-box-shadow: inset 0 0 15px rgba(100,100,100,0);
+  box-shadow: inset 0 0 15px rgba(100,100,100,0);
+}
+input.input-db:focus {
+  border-color: rgba(255,255,255,0.75);
+  -webkit-box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+  -moz-box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+  -khtml-box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+  -o-box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+  -icab-box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+  box-shadow: inset 0 0px 10px rgba(255,255,255,0.25);
+}
+input.input-db::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+}
+input.input-db:-moz-placeholder {
+  color: rgba(255,255,255,0.5);
+}
+input.input-db::-moz-placeholder {
+  color: rgba(255,255,255,0.5);
+}
+input.input-db:-ms-input-placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.marketing-headline {
+  text-align: center;
+}
+.marketing-headline h2 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 30px;
+}
+.marketing {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  margin: 30px auto;
+}
+.marketing h2 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+}
+.pricing-headline {
+  text-align: center;
+}
+.pricing-headline h2 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 30px;
+}
+.pricing {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  margin: 30px auto;
+}
+.pricing .well {
+  background-image: none;
+  border: none;
+  border-radius: 0;
+}
+.pricing .well h3 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+.pricing .well ul {
+  padding: 0;
+  margin: 0;
+}
+.pricing .well ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 15px 0;
+}
+.pricing .col-sm-3:nth-child(1) .well {
+  background-color: #2fe2bf;
+}
+.pricing .col-sm-3:nth-child(2) .well {
+  background-color: #63e9cf;
+}
+.pricing .col-sm-3:nth-child(3) .well {
+  background-color: #97f1df;
+}
+.pricing .col-sm-3:nth-child(4) .well {
+  background-color: #cbf8ef;
+}

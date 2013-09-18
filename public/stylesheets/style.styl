@@ -1,0 +1,162 @@
+// Reusable values (colors, fonts)
+db_cyan = #1abc9c
+db_font = "Open Sans", Helvetica, Arial, sans-serif
+
+
+// Mixins
+openSans(size=14px)
+  font-family     "Open Sans", Helvetica, Arial, sans-serif
+  font-size       size
+
+vendor(a,b)
+  -webkit-{a}     b
+  -moz-{a}        b
+  -khtml-{a}      b
+  -o-{a}          b
+  -icab-{a}       b
+  {a}             b
+
+// webfonts
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,300')
+
+
+// styles
+body
+  min-height          1000px
+  padding-top         60px
+
+a
+  color               db_cyan
+
+.navbar
+  border-bottom       10px solid db_cyan
+
+.landing
+  openSans()
+  background-image    url('../img/bg_landing.jpg')
+  background-repeat   no-repeat
+  // background-size     100% auto
+  background-size     cover
+  background-position 0 0
+  background-color    db_cyan
+  height              700px
+  text-align          center
+
+  h1
+    openSans(40px)
+    font-weight       400
+    font-style        italic
+    color             white
+    text-shadow       1px 1px 2px rgba(0,0,0,0.35)
+
+    span.highlighted
+      background-color db_cyan
+      padding         3px 10px
+
+  p
+    openSans(24px)
+    text-shadow       1px 1px 2px rgba(0,0,0,0.35)
+    color             white
+    font-style        italic
+    font-weight       300
+
+  .signup
+    text-align        right
+    width             400px
+
+.well-db
+  margin              auto
+  margin-bottom       150px
+  margin-top          150px
+  background-color    rgba(255,255,255,0.3)
+  background-image    none
+  border              1px solid rgba(255,255,255,0.2)
+  box-shadow          inset 0 5px 25px rgba(255,255,255,0.3)
+  border-radius       0
+
+
+
+button.btn-db
+  color               white
+  background-color    db_cyan
+  border-radius       0
+  border              0
+  background-image    none
+  text-shadow         none
+  transition          background-color, 0.3s linear
+
+  &:hover
+    background-color  lighten(db_cyan,10%)
+    color             white
+
+input.input-db
+  background-color    db_cyan
+  border              1px solid transparent
+  border-radius       0
+  color               white
+  vendor              box-shadow, inset 0 0 15px rgba(100,100,100,0.0)
+
+  &:focus
+    border-color      rgba(255,255,255,0.75)
+    vendor            box-shadow, inset 0 0px 10px rgba(255,255,255,0.25) //\,0 0 15px rgba(255,255,255,0.25)
+
+  &::-webkit-input-placeholder
+    color             rgba(255,255,255,0.5)
+
+  &:-moz-placeholder
+    color             rgba(255,255,255,0.5)
+
+  &::-moz-placeholder
+    color             rgba(255,255,255,0.5)
+
+  &:-ms-input-placeholder
+    color             rgba(255,255,255,0.5)
+
+.marketing-headline
+  text-align          center
+
+  h2
+    openSans(30px)
+
+.marketing
+
+  openSans(14px)
+  margin              30px auto
+
+  h2
+    openSans(20px)
+
+.pricing-headline
+  text-align          center
+
+  h2
+    openSans(30px)
+
+.pricing
+
+  openSans(14px)
+  margin              30px auto
+
+  .well
+
+    h3
+      openSans(24px)
+      margin-bottom   20px
+      margin-top      0
+
+    background-image  none
+    border            none
+    border-radius     0
+
+    ul
+      padding         0
+      margin          0
+
+      li
+        list-style    none
+        margin        0
+        padding       0 0 15px 0
+
+  for price in (1..4)
+    .col-sm-3:nth-child({price}) .well
+      background-color lighten(db_cyan,(price*20%)-20%)

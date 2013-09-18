@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "3.x",
     "ejs": "*",
-    "ejs-locals": "~1.0.2"
+    "ejs-locals": "~1.0.2",
+    "coffee-script": "~1.6.3"
   }
 }
