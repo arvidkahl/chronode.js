@@ -225,9 +225,9 @@
       });
 
       $("#module_send").on('click',function(e){
-        var name = $("#module").val().trim();
-        if(name.length>0) {
-          getModuleData(this,[name]);
+        var names = $("#module").val().split(',');
+        if(names.length>0) {
+          getModuleData(this,names);
         }
         e.preventDefault()
       });
