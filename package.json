@@ -1,8 +1,20 @@
 {
-  "name": "whatversionwas",
-  "description": "module version time machine",
-  "version": "0.0.1",
-  "private": true,
+  "name": "chronode.js",
+  "version": "0.1.0",
+  "description": "npm module version time machine",
+  "license" : "MIT",
+  "author" : {
+    "name":"Arvid Kahl",
+    "email":"mail@arvidkahl.de"
+    },
+  "repository" :
+    {
+      "type" : "git",
+      "url" : "https://github.com/arvidkahl/chronode.js.git"
+    },
+  "engines" : {
+    "node" : "~0.10.18"
+  },
   "dependencies": {
     "express": "3.x",
     "ejs": "*",
