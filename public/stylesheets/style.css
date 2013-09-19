@@ -1,3 +1,8 @@
 #add-tab.nav-tabs {
   margin-bottom: 15px;
 }
+
+#package_json {
+  font-family: monospace;
+  font-size: 0.8em;
+}

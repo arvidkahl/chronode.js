@@ -1,127 +1,120 @@
 <% layout('layout') -%>
 <div class="container">
-    <div class="header">
-        <ul class="nav nav-inverted nav-pills pull-right">
-            <li class="active">
-                <a href="#">Home</a>
-            </li>
-            <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>
+  <div class="header">
+    <ul class="nav nav-inverted nav-pills pull-right">
+      <li class="active">
+        <a href="#">Home</a>
+      </li>
+      <li>
+        <a href="#">About</a>
+      </li>
+      <li>
+        <a href="#">Contact</a>
+      </li>
+    </ul>
+    <h3 class="text-muted">what version was?</h3>
+  </div>
+  <div class="row">
+    <div class="page-header">
+      <h1>What version was <small>What the hell is this?</small></h1>
+    </div>
+    <div class="container">
+      <p>Want to know what version your module dependencies were two years ago, when you built "that project" but forgot to specify anything but <code>"*"</code> in your <code>package.json</code>?</p>
+      <p>Yeah. <strong>Exactly</strong>. This tool allows you to find out what the most current version those modules were on any given day (that npm can remember).</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h3><span class="glyphicon glyphicon-plus"></span> Add Modules</h3>
+      <div class="">
+        <ul id="add-tab" class="nav nav-tabs">
+          <li class="active">
+            <a href="#parse_json" data-toggle="tab"><span class="glyphicon glyphicon-import"></span> From package.json</a>
+          </li>
+          <li class="">
+            <a href="#npm_module" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Single Modules</a>
+          </li>
         </ul>
-        <h3 class="text-muted">
-            what version was?
-        </h3>
-    </div>
-<div class="row">
-  <div class="page-header">
-    <h1>What version was <small>What the hell is this?</small></h1>
-  </div>
-  <div class="container">
-    <p>Want to know what version your module dependencies were two years ago, when you built "that project" but forgot to specify anything but <code>"*"</code> in your <code>package.json</code>?</p>
-    <p>Yeah. <strong>Exactly</strong>. This tool allows you to find out what the most current version those modules were on any given day (that npm can remember).</p>
-  </div>
-</div>
-
-    <div class="row">
-<!--       <div class="container">
- --><!--         <form role="form" class="form-horizontal">
- -->            <div class="col-sm-6">
-                <h3><span class="glyphicon glyphicon-plus"></span> Add Modules</h3>
-                <div class="">
-                    <ul id="add-tab" class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#parse_json" data-toggle="tab"><span class="glyphicon glyphicon-import"></span> from package.json</a>
-                        </li>
-                        <li class="">
-                            <a href="#npm_module" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> single modules</a>
-                        </li>
-                    </ul>
-                    <div id="add-tab-content" class="tab-content">
-                        <div class="tab-pane fade active in" id="parse_json">
-                            <p>You can add your <code>package.json</code> contents here. The dependency modules will be added to your Current Modules on the right.</p>
-                                <div class="form-group">
-                                <label for="package_json" class="">package.json content</label>
-                                <textarea id="package_json" class="form-control" rows="5"></textarea>
-                                </div>
-                                <button type="button" id='package_send' class="btn btn-default" data-loading-text="Loading module data...">Parse package.json</button>
-                        </div>
-                        <div class="tab-pane fade" id="npm_module">
-                              <p>You can add single or comma-separated npm module names here.</p>
-                                <div class="form-group">
-
-                                <label for="module" class="">Module name</label>
-                                <div class="input-group">
-                                    <input id="module" type="text" class="form-control" placeholder="e.g. coffee-script"> <span class="input-group-btn"><button type="button" id='module_send' class="btn btn-default" data-loading-text="Loading module data..."><span class="input-group-btn"><span class="input-group-btn">Check npm</span></span></button></span>
-                                </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
+        <div id="add-tab-content" class="tab-content">
+          <div class="tab-pane fade active in" id="parse_json">
+            <p>You can add your <code>package.json</code> contents here. The dependency modules will be added to your Current Modules on the right.</p>
+            <div class="form-group">
+              <label for="package_json" class="">package.json content</label>
+              <textarea id="package_json" class="form-control" rows="8"></textarea>
             </div>
-            <div class="form-group col-sm-6">
-                <h3><span class="glyphicon glyphicon-list"></span> Current Modules</h3>
-                <table id="module_cache" class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th>
-                                Module name
-                            </th>
-                            <th>
-                                Latest version
-                            </th>
-                            <th>
-                                # of versions
-                            </th>
-                        </tr>
-                        <tbody></tbody>
-                    </thead>
-                </table>
-
-                <h3><span class="glyphicon glyphicon-calendar"></span> Go back in time!</h3>
-                <label for="date" class="">Date to check</label>
-                <div class="input-group">
-                    <input id="date" type="text" class="form-control"> <span class="input-group-btn"><button type="button" id='calculate' class="btn btn-primary"><span class="input-group-btn">Show versions</span></button></span>
-                </div>
+            <div class="checkbox">
+              <label>
+                <input id="allow-dev" type="checkbox"> Include devDependencies
+              </label>
             </div>
-<!--         </form>
- -->      <!-- </div> -->
-
+            <div class="checkbox">
+              <label>
+                <input id="allow-bundled" type="checkbox"> Include bundledDependencies
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="allow-optional" type="checkbox"> Include optionalDependencies
+              </label>
+            </div>
+            <button type="button" id='package_send' class="btn btn-default" data-loading-text="Loading module data...">Add Modules from package.json</button>
+          </div>
+          <div class="tab-pane fade" id="npm_module">
+            <p>You can add single or comma-separated npm module names here.</p>
+            <div class="form-group">
+              <label for="module" class="">Module name</label>
+              <div class="input-group">
+                <input id="module" type="text" class="form-control" placeholder="e.g. coffee-script"> <span class="input-group-btn"><button type="button" id='module_send' class="btn btn-default" data-loading-text="Loading module data..."><span class="input-group-btn"><span class="input-group-btn">Add Module(s)</span></span></button></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row col-sm-12">
-      <h3><span class="glyphicon glyphicon-time"></span> Version data</h3>
-      <div id="result" class="well well-lg">
-        No version data yet.
+    <div class="form-group col-sm-6">
+      <h3><span class="glyphicon glyphicon-list"></span> Current Modules</h3>
+      <table id="module_cache" class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Module name</th>
+            <th>Latest version</th>
+            <th># of versions</th>
+          </tr>
+          <tbody></tbody>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-6">
+      <h3><span class="glyphicon glyphicon-calendar"></span> Go back in time!</h3>
+      <label for="date" class="">Date to check</label>
+        <div class="input-group">
+          <input id="date" type="text" class="form-control"> <span class="input-group-btn"><button type="button" id='calculate' class="btn btn-primary"><span class="input-group-btn">Show versions</span></button></span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3><span class="glyphicon glyphicon-time"></span> Version data</h3>
+        <div id="result" class="well well-lg">
+          No version data yet.
+        </div>
       </div>
     </div>
     <div class="row marketing">
-        <div class="col-md-6">
-            <h4>
-                Purpose
-            </h4>
-            <p>
-                If you want to find out which version a certain module was at any point in time, this tool will check the version history.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                Tech
-            </h4>
-            <p>
-                It looks up the npm show command output for version and time information.
-            </p>
-        </div>
+      <div class="col-sm-6">
+        <h4>Purpose</h4>
+        <p>If you want to find out which version a certain module was at any point in time, this tool will check the version history.</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Tech</h4>
+        <p>It looks up the npm show command output for version and time information.</p>
+      </div>
     </div>
     <div class="footer">
-        <p>
-            © Arvid Kahl 2013
-        </p>
+      <p>© Arvid Kahl 2013</p>
     </div>
+  </div>
 </div>
-
 
 <script type="text/javascript">
 
@@ -183,7 +176,6 @@
     function getModuleData(button,data){
         button = $(button);
         button.button('loading');
-        // $("#module_send").button('loading');
 
         $.ajax({
           url: "/",
@@ -193,7 +185,6 @@
           },
           error: function(error) {
               button.button('reset');
-              // $("#module_send").button('reset');
               notification('Connection failed.','warn')
             },
 
@@ -205,7 +196,6 @@
               console.log('Could not parse response.');
             }
             button.button('reset');
-            // $("#module_send").button('reset');
 
             for (name_ in time) {
               if (!timeData[name_]) addModule(name_,time[name_]);
@@ -250,6 +240,36 @@
             for (dep in package_data.dependencies) {
               deps.push(dep);
             }
+
+            if($("#allow-dev").prop("checked")==true){
+              if(package_data.devDependencies){
+                for (dep in package_data.devDependencies) {
+                  if(!deps[dep]) deps.push(dep);
+                }
+              }
+            }
+
+            if($("#allow-bundled").prop("checked")==true){
+              if(package_data.bundledDependencies){
+                for (dep in package_data.bundledDependencies) {
+                  if(!deps[dep]) deps.push(dep);
+                }
+              }
+              if(package_data.bundleDependencies){
+                for (dep in package_data.bundleDependencies) {
+                  if(!deps[dep]) deps.push(dep);
+                }
+              }
+            }
+
+            if($("#allow-optional").prop("checked")==true){
+              if(package_data.optionalDependencies){
+                for (dep in package_data.optionalDependencies) {
+                  if(!deps[dep]) deps.push(dep);
+                }
+              }
+            }
+
           }
           getModuleData(this,deps);
         }
