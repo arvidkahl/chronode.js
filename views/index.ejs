@@ -1,104 +1,147 @@
 <% layout('layout') -%>
-
 <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+    <div class="header">
+        <ul class="nav nav-inverted nav-pills pull-right">
+            <li class="active">
+                <a href="#">Home</a>
+            </li>
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
         </ul>
-        <h3 class="text-muted">what version was?</h3>
-      </div>
+        <h3 class="text-muted">
+            what version was?
+        </h3>
+    </div>
+<div class="row">
+  <div class="page-header">
+    <h1>What version was <small>What the hell is this?</small></h1>
+  </div>
+  <div class="container">
+    <p>Want to know what version your module dependencies were two years ago, when you built "that project" but forgot to specify anything but <code>"*"</code> in your <code>package.json</code>?</p>
+    <p>Yeah. <strong>Exactly</strong>. This tool allows you to find out what the most current version those modules were on any given day (that npm can remember).</p>
+  </div>
+</div>
 
-      <div class="well well-lg">
-      <form role="form">
+    <div class="row">
+<!--       <div class="container">
+ --><!--         <form role="form" class="form-horizontal">
+ -->            <div class="col-sm-6">
+                <h3><span class="glyphicon glyphicon-plus"></span> Add Modules</h3>
+                <div class="">
+                    <ul id="add-tab" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#parse_json" data-toggle="tab"><span class="glyphicon glyphicon-import"></span> from package.json</a>
+                        </li>
+                        <li class="">
+                            <a href="#npm_module" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> single modules</a>
+                        </li>
+                    </ul>
+                    <div id="add-tab-content" class="tab-content">
+                        <div class="tab-pane fade active in" id="parse_json">
+                            <p>You can add your <code>package.json</code> contents here. The dependency modules will be added to your Current Modules on the right.</p>
+                                <div class="form-group">
+                                <label for="package_json" class="">package.json content</label>
+                                <textarea id="package_json" class="form-control" rows="5"></textarea>
+                                </div>
+                                <button type="button" id='package_send' class="btn btn-default" data-loading-text="Loading module data...">Parse package.json</button>
+                        </div>
+                        <div class="tab-pane fade" id="npm_module">
+                              <p>You can add single or comma-separated npm module names here.</p>
+                                <div class="form-group">
 
-        <div class="form-group col-sm-6">
-
-         <div class="bs-example bs-example-tabs">
-      <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#parse_json" data-toggle="tab">package.json</a></li>
-        <li class=""><a href="#npm_module" data-toggle="tab">npm modules</a></li>
-      </ul>
-      <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active in" id="parse_json">
-          <div class="container">
-            <label for="module" class="">Paste your package.json here</label>
-            <textarea id="package_json" class="form-control" rows="5"></textarea>
-            <button type="button" id='package_send' class="btn btn-default">Parse package.json</button>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="npm_module">
-          <div class="container">
-            <label for="module" class="">Module name</label>
-            <div class="input-group">
-              <input id="module" type="text" class="form-control" placeholder="e.g. coffee-script"></input>
-              <span class="input-group-btn">
-                <button type="button" id='module_send' class="btn btn-default">Check npm</button>
-              </span>
+                                <label for="module" class="">Module name</label>
+                                <div class="input-group">
+                                    <input id="module" type="text" class="form-control" placeholder="e.g. coffee-script"> <span class="input-group-btn"><button type="button" id='module_send' class="btn btn-default" data-loading-text="Loading module data..."><span class="input-group-btn"><span class="input-group-btn">Check npm</span></span></button></span>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
+            <div class="form-group col-sm-6">
+                <h3><span class="glyphicon glyphicon-list"></span> Current Modules</h3>
+                <table id="module_cache" class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                Module name
+                            </th>
+                            <th>
+                                Latest version
+                            </th>
+                            <th>
+                                # of versions
+                            </th>
+                        </tr>
+                        <tbody></tbody>
+                    </thead>
+                </table>
+
+                <h3><span class="glyphicon glyphicon-calendar"></span> Go back in time!</h3>
+                <label for="date" class="">Date to check</label>
+                <div class="input-group">
+                    <input id="date" type="text" class="form-control"> <span class="input-group-btn"><button type="button" id='calculate' class="btn btn-primary"><span class="input-group-btn">Show versions</span></button></span>
+                </div>
+            </div>
+<!--         </form>
+ -->      <!-- </div> -->
+
+    </div>
+    <div class="row col-sm-12">
+      <h3><span class="glyphicon glyphicon-time"></span> Version data</h3>
+      <div id="result" class="well well-lg">
+        No version data yet.
       </div>
     </div>
-
-
+    <div class="row marketing">
+        <div class="col-md-6">
+            <h4>
+                Purpose
+            </h4>
+            <p>
+                If you want to find out which version a certain module was at any point in time, this tool will check the version history.
+            </p>
         </div>
-        <div class="form-group col-sm-6">
-
-          <table id="module_cache" class="table table-condensed">
-            <thead>
-              <th>module name</th>
-              <th>latest version</th>
-              <th># of versions</th>
-            </thead>
-            <tbody></tbody>
-          </table>
-
-
-          <label for="date" class="">Date to check</label>
-          <div class="input-group">
-          <input id="date" type="text" class="form-control"></input>
-          <span class="input-group-btn">
-            <button type="button" id='calculate' class="btn btn-default">Show this date's version</button>
-          </span>
-          </div>
+        <div class="col-md-6">
+            <h4>
+                Tech
+            </h4>
+            <p>
+                It looks up the npm show command output for version and time information.
+            </p>
         </div>
-      </form>
-
-        <p id='result' class="container">This area will display data.</p>
-      </div>
-
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>Purpose</h4>
-          <p>If you want to find out which version a certain module was at any point in time, this tool will check the version history.</p>
-        </div>
-
-        <div class="col-lg-6">
-          <h4>Tech</h4>
-          <p>It looks up the npm show command output for version and time information.</p>
-        </div>
-      </div>
-
-      <div class="footer">
-        <p>© Arvid Kahl 2013</p>
-      </div>
     </div>
-  <div>
+    <div class="footer">
+        <p>
+            © Arvid Kahl 2013
+        </p>
+    </div>
+</div>
 
 
+<script type="text/javascript">
 
-  <script type="text/javascript">
-
+    // global data cache - this will contain the time data of all selected modules
     timeData = {}
 
+    // wrapper for changing notifications plugins
+    function notification(title,options){
+      if(!options) options = "info"
+      $.notify(title,{
+        className : options,
+        globalPosition : 'top center'
+      });
+    }
+
+    // add module to the table
     function addModule(name,data){
-
       var row = $("#module_cache").find('tbody').append($('<tr>'))
-
       var data_ = []
+
       for (date in data) {
         data_.push({
           version : date,
@@ -110,69 +153,97 @@
       row.append($("<td>"+name+"</td><td>"+data_[data_.length-1].version+"</td><td>"+data_.length+"</td>"));
     }
 
-    $(document).ready(function(){
+    // add calculated values to the result box
+    function addResult(){
+     var currentDate = $( "#date" ).datepicker( "getDate" );
 
-      $( "#date" ).datepicker();
+      $("#result").html('modules at time '+currentDate);
+      for (name in timeData) {
 
-      $("#calculate").on('click', function() {
-        var currentDate = $( "#date" ).datepicker( "getDate" );
+        var closest = {time : 0, version : 0}
 
-        $("#result").html('modules at time '+currentDate);
-        for (name in timeData) {
+        // adding data to local data collection
+        times = timeData[name];
 
-          var closest = {time : 0, version : 0}
-
-          // adding data to local data collection
-          times = timeData[name];
-
-          for (var version in times) {
-            time = new Date(times[version])
-            if (time > new Date(closest.time) && time < currentDate) {
-              closest = {
-                version : version,
-                time : times[version]
-              }
+        for (var version in times) {
+          time = new Date(times[version])
+          if (time > new Date(closest.time) && time < currentDate) {
+            closest = {
+              version : version,
+              time : times[version]
             }
-          };
+          }
+        };
 
-          $("#result").append("<p>"+name+" version: "+closest.version+"</p>");
+        $("#result").append("<p>"+name+" version: "+closest.version+"</p>");
+      }
+    }
 
-        }
+    // get module data from the backend
+    function getModuleData(button,data){
+        button = $(button);
+        button.button('loading');
+        // $("#module_send").button('loading');
 
-      });
-
-      $("#module_send").on('click',function(){
-        var name = $("#module").val().trim();
-        console.log(name+" AJAX request started");
         $.ajax({
           url: "/",
           type:'POST',
           data: {
-            names: [name]
+            names: data
           },
+          error: function(error) {
+              button.button('reset');
+              // $("#module_send").button('reset');
+              notification('Connection failed.','warn')
+            },
+
           success: function( data ) {
-            time = JSON.parse(data)
+            var time = {}
+            try {
+              time = JSON.parse(data)
+            } catch (e){
+              console.log('Could not parse response.');
+            }
+            button.button('reset');
+            // $("#module_send").button('reset');
+
             for (name_ in time) {
+              if (!timeData[name_]) addModule(name_,time[name_]);
               timeData[name_] = time[name_];
-              addModule(name_,time[name_]);
             }
           }
         });
+
+    }
+
+    // init
+    $(document).ready(function(){
+
+      $("#date").datepicker();
+      $('#package_send').button()
+
+      $("#calculate").on('click', function(e) {
+        addResult();
+        e.preventDefault()
       });
 
-      $("#package_send").on('click',function(){
+      $("#module_send").on('click',function(e){
+        var name = $("#module").val().trim();
+        if(name.length>0) {
+          getModuleData(this,[name]);
+        }
+        e.preventDefault()
+      });
+
+      $("#package_send").on('click',function(e){
         var json_content = $("#package_json").val().trim();
         var deps = [];
-
         package_data = {}
-
         try {
           package_data = JSON.parse(json_content)
-
         } catch (e){
-          console.log('not json');
+          notification('That\'s not valid JSON.','error')
         }
-
         if (Object.keys(package_data).length>0){
           if(package_data.name){deps.push(package_data.name)}
           if(package_data.dependencies){
@@ -180,23 +251,9 @@
               deps.push(dep);
             }
           }
-          console.log(name+" MULTI AJAX request started",deps);
-          $.ajax({
-            url: "/",
-            type:'POST',
-            data: {
-              names: deps
-            },
-            success: function( data ) {
-              time = JSON.parse(data)
-              for (name_ in time) {
-                timeData[name_] = time[name_];
-                addModule(name_,time[name_]);
-              }
-            }
-          });
+          getModuleData(this,deps);
         }
+        e.preventDefault()
       });
     });
-  </script>
-</div>
+</script>
