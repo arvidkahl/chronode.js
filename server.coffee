@@ -24,6 +24,8 @@ daisy = (args, fn) ->
   , 0
 
 fetchTimes = (name, callback) ->
+  name = name.replace /([^a-zA-Z|\-])/g, '' # sanitizing the name
+
   unless cache.items[name]?
     child = exec("npm view #{name} time", (error, packageTime, stderr) ->
       unless error?

@@ -94,30 +94,31 @@
     <div class="col-sm-6">
       <h3><span class="glyphicon glyphicon-calendar"></span> Go back in time!</h3>
       <label for="date" class="">Date to check</label>
-        <div class="input-group">
-          <input id="date" type="text" class="form-control"> <span class="input-group-btn"><button type="button" id='calculate' class="btn btn-primary"><span class="input-group-btn">Show versions</span></button></span>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h3><span class="glyphicon glyphicon-time"></span> Version data</h3>
-        <div id="result" class="well well-lg">
-          No version data yet.
-        </div>
+      <div class="input-group">
+        <input id="date" type="text" class="form-control"> <span class="input-group-btn"><button type="button" id='calculate' class="btn btn-primary"><span class="input-group-btn">Show versions</span></button></span>
       </div>
     </div>
-    <div class="row marketing">
-      <div class="col-sm-6" id="about">
-        <h4>About</h4>
-        <p>If you want to find out which version a certain module was at any point in time, this tool will check the version history.</p>
-      </div>
-      <div class="col-md-6" id="tech">
-        <h4>Tech</h4>
-        <p>It looks up the npm show command output for version and time information.</p>
+    <div class="col-sm-6">
+      <h3><span class="glyphicon glyphicon-time"></span> Version data</h3>
+      <div id="result" class="well well-lg">
+        No version data yet.
       </div>
     </div>
-    <div class="footer">
-      <p>© Arvid Kahl 2013</p>
+  </div>
+  <div class="row marketing">
+    <div class="col-sm-6" id="about">
+      <h4>About</h4>
+      <p>This tool came to life because I made the rookie mistake of not adding version numbers to the <code>package.json</code> of my first few <a href="http://nodejs.org">node.js</a> apps. Many months later, I tried running them on a different environment, only to find myself amid broken code due to API changes in most of the modules I was using. At that point, I needed a solution to find out, which versions of my dependencies were being used when I wrote the apps. This tool is the result of that need.</p>
     </div>
+    <div class="col-md-6" id="tech">
+      <h4>Tech</h4>
+      <p>This tool looks up the <code>npm view</code> command output for version and time information, server-side. It employs data caching.</p>
+      <p>You can find the source at <a href="">GitHub</a>.</p>
+      <p>Serverside logic is written in CoffeeScript using Express and ejs, client logic is JavaScript, the layout comes from Bootstrap 3.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <p>© <a href="mailto:mail@arvidkahl.de">Arvid Kahl</a> 2013</p>
   </div>
 </div>
 
@@ -137,8 +138,10 @@
 
     // add module to the table
     function addModule(name,data){
-      var row = $("#module_cache").find('tbody').append($('<tr>'))
-      var data_ = []
+      var row = $('<tr>');
+      var data_ = [];
+
+      $("#module_cache").find('tbody').append(row);
 
       for (date in data) {
         data_.push({
@@ -148,14 +151,23 @@
       }
       data_.sort()
 
-      row.append($("<td>"+name+"</td><td>"+data_[data_.length-1].version+"</td><td>"+data_.length+"</td>"));
+      row.append($("<td>"+name+"</td><td>"+data_[data_.length-1].version+"</td><td>"+data_.length+'<a class="close" href="#"><span class="pull-right glyphicon glyphicon-remove"></span></a></td>'));
+      row.find('a.close').on('click',function(e){
+        row.remove();
+        delete timeData[name];
+        e.preventDefault();
+      });
     }
 
     // add calculated values to the result box
     function addResult(){
-     var currentDate = $( "#date" ).datepicker( "getDate" );
+      var currentDate = $( "#date" ).datepicker( "getDate" );
+      currentMoment = moment(currentDate)
 
-      $("#result").html('modules at time '+currentDate);
+      $("#result").html("<h4>Module versions <small>at "+currentMoment.format('L')+" ("+currentMoment.startOf('day').fromNow()+")</small></h4>");
+
+      $("#result").append("<table id='result-table' class='table table-condensed'><thead><th>Name</th><th>Version</th></thead><tbody></tbody></table>");
+
       for (name in timeData) {
 
         var closest = {time : 0, version : 0}
@@ -173,7 +185,7 @@
           }
         };
 
-        $("#result").append("<p>"+name+" version: "+closest.version+"</p>");
+        $("#result #result-table tbody").append("<tr data-name='"+name+"'><td><a target='_new' href='https://npmjs.org/package/"+name+"'>"+name+"</a></td><td>"+closest.version+'</td></tr>');
       }
     }
 
@@ -214,13 +226,14 @@
     // init
     $(document).ready(function(){
 
+      moment().format();
+
       $('body').scrollspy({ target: '#main-nav' })
 
       $("#date").datepicker();
-      $('#package_send').button()
 
       $("#calculate").on('click', function(e) {
-        addResult();
+        if($("#date").val()) addResult();
         e.preventDefault()
       });
 
