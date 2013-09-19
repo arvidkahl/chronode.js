@@ -25,16 +25,15 @@ daisy = (args, fn) ->
 
 fetchTimes = (name, callback) ->
   unless cache.items[name]?
-    child = exec("npm show " + name + " time", (error, packageTime, stderr) ->
+    child = exec("npm view #{name} time", (error, packageTime, stderr) ->
       unless error?
-        times = []
-        lines = packageTime.split("\n")
-        for line of lines
-          time = lines[line].replace(/['",{}]/g, "").match(/([^:]+): ([^:]+)/)
-          if time and time[1] and time[2]
-            times.push
-              version: time[1].trim()
-              time: time[2].trim()
+        correctedTime = packageTime.replace(/\'/g,"\"") # because npm is strange
+
+        try
+          times = JSON.parse(correctedTime)
+        catch e
+          console.log "ERROR parsing time information for #{name}"
+          times = {}
 
         cache.items[name] = times
         console.log "WARNING no time data found for " + name  if times.length is 0
@@ -62,6 +61,9 @@ app.post "/", (req, res) ->
     data = {}
     queue = []
     query.forEach (name) ->
+
+      # sanitize name here
+
       name_ = name.replace(/%s/g, "")
       if name_.length
         queue.push ->
